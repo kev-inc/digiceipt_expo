@@ -3,11 +3,10 @@ import {
   Text,
   View,
   ScrollView,
-  Alert,
-  Picker,
   KeyboardAvoidingView,
 } from 'react-native';
-import { TextInput, Button, Checkbox, ToggleButton } from 'react-native-paper';
+import { TextInput, Button, HelperText } from 'react-native-paper';
+import { fbSignup } from '../Firebase/Firebase'
 
 export default class SignupPage extends React.Component {
   static navigationOptions = {
@@ -24,10 +23,14 @@ export default class SignupPage extends React.Component {
     email: '',
     password: '',
     confirmpassword: '',
+    helpertext: ' '
   };
 
   onSignup = () => {
-    console.log(this.state);
+    const { email, password } = this.state
+    fbSignup(email, password).catch(error => {
+      this.setState({helpertext: error.message})
+    })
   };
 
   render() {
@@ -41,6 +44,7 @@ export default class SignupPage extends React.Component {
       email,
       password,
       confirmpassword,
+      helpertext
     } = this.state;
 
     return (
@@ -179,6 +183,8 @@ export default class SignupPage extends React.Component {
               secureTextEntry={true}
               theme={{ colors: { primary: '#0074d1' } }}
             />
+
+            <HelperText type="error">{helpertext}</HelperText>
 
             <Text style={{ opacity: 0.25, fontSize: 12, marginVertical: 16 }}>
               By creating an account, you agree with our{' '}

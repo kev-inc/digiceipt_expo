@@ -6,7 +6,8 @@ import {
   Alert,
   KeyboardAvoidingView,
 } from 'react-native';
-import { TextInput, Button, Checkbox } from 'react-native-paper';
+import { TextInput, Button, Checkbox, HelperText } from 'react-native-paper';
+import { fbLogin } from '../Firebase/Firebase'
 
 export default class LoginPage extends React.Component {
   static navigationOptions = {
@@ -16,6 +17,7 @@ export default class LoginPage extends React.Component {
     rememberLogin: true,
     email: '',
     password: '',
+    helpertext: ' '
   };
 
   alert = () => {
@@ -23,9 +25,16 @@ export default class LoginPage extends React.Component {
       { text: 'OK', onPress: () => console.log('OK Pressed') },
     ]);
   };
+
+  login = () => {
+    const { email, password } = this.state
+    fbLogin(email, password).catch(error => {
+      this.setState({helpertext: error.message})
+    })
+  }
   render() {
     const checked = this.state.rememberLogin;
-    const { email, password } = this.state;
+    const { email, password, helpertext } = this.state;
 
     return (
       <KeyboardAvoidingView style={{ flex: 1 }} behavior="padding">
@@ -82,11 +91,13 @@ export default class LoginPage extends React.Component {
               </Text>
             </View>
 
+          <HelperText type="error">{helpertext}</HelperText>
+
             <Button
               mode="contained"
               style={{ marginVertical: 8 }}
               color="#0074d1"
-              onPress={() => this.props.navigation.navigate('App')}>
+              onPress={this.login}>
               Log in
             </Button>
 
