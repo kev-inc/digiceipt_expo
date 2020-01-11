@@ -32,9 +32,6 @@ export default class LoginPage extends React.Component {
     const { email, password } = this.state
     this.setState({ showloader: true }, () => {
       fbLogin(email, password)
-        .then(() => {
-          this.props.navigation.navigate('App')
-        })
         .catch(error => {
           this.setState({ showloader: false, helpertext: error.message })
         })

@@ -16,13 +16,9 @@ if (!firebase.apps.length) {
   firebase.initializeApp(firebaseConfig);
 }
 
-firebase.auth().onAuthStateChanged(user => {
-  if(user) {
-    console.log("login as " + user.email)
-  } else {
-    console.log("logout")
-  }
-})
+export function getAuth() {
+  return firebase.auth()
+}
 
 export function getCurrentUser() {
   return firebase.auth().currentUser

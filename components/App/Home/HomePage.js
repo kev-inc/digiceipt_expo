@@ -1,7 +1,6 @@
 import * as React from 'react';
-import { Text, View, ScrollView  } from 'react-native';
-import { Appbar, Title } from 'react-native-paper'
-import { LineChart } from 'react-native-chart-kit'
+import { View, ScrollView  } from 'react-native';
+import { Appbar } from 'react-native-paper'
 
 import RecentTransactions from './RecentTransactions'
 import DealsList from './DealsList'
@@ -27,7 +26,6 @@ export default class HomePage extends React.Component {
           <Graph />
           <RecentTransactions 
             toReceiptTab={() => this.props.navigation.navigate('Receipts')}
-            toReceiptDetail={() => this.props.navigation.navigate('ReceiptDetail')}
           />
           <DealsList />
         </ScrollView>

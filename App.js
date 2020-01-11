@@ -14,8 +14,9 @@ import ProfilePage from './components/App/Profile/ProfilePage';
 
 import LoginPage from './components/Auth/LoginPage';
 import SignupPage from './components/Auth/SignupPage';
+import AuthLoading from './components/AuthLoading'
 
-import { getCurrentUser } from './components/Firebase/Firebase'
+import { getAuth } from './components/Firebase/Firebase'
 
 const AppTabNavigator = createBottomTabNavigator(
   {
@@ -77,10 +78,12 @@ const AppSwitchNavigator = createSwitchNavigator(
   {
     App: AppTabNavigator,
     Auth: AuthTabNavigator,
+    AuthLoading: AuthLoading
   },
   {
-    initialRouteName: `${getCurrentUser() != null ? 'App' : 'Auth'}`,
+    initialRouteName: 'AuthLoading',
   }
 );
+
 
 export default createAppContainer(AppSwitchNavigator);

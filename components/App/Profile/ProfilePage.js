@@ -14,7 +14,6 @@ export default class ProfilePage extends React.Component {
     this.setState({showloader: true}, () => {
       fbLogout().then(() => {
         this.setState({showloader: false})
-        this.props.navigation.navigate('Auth')
       })
     })
   }
