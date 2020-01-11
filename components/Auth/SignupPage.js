@@ -6,7 +6,8 @@ import {
   KeyboardAvoidingView,
 } from 'react-native';
 import { TextInput, Button, HelperText } from 'react-native-paper';
-import { fbSignup } from '../Firebase/Firebase'
+import { fbSignup, updateUserDetails } from '../Firebase/Firebase'
+import SignupLoader from './SignupLoader';
 
 export default class SignupPage extends React.Component {
   static navigationOptions = {
@@ -14,23 +15,31 @@ export default class SignupPage extends React.Component {
   };
 
   state = {
-    firstname: '',
-    lastname: '',
+    firstname: 'John',
+    lastname: 'Doe',
     day: '',
     month: '',
     year: '',
     gender: '',
-    email: '',
-    password: '',
+    email: 'test2@test.com',
+    password: 'testtest',
     confirmpassword: '',
-    helpertext: ' '
+    helpertext: ' ',
+    showloader: false
   };
 
   onSignup = () => {
-    const { email, password } = this.state
-    fbSignup(email, password).catch(error => {
-      this.setState({helpertext: error.message})
+    const { firstname, lastname, email, password } = this.state
+    this.setState({ showloader: true }, () => {
+      fbSignup(email, password)
+        .then(() => updateUserDetails(firstname, lastname).then(() => {
+          this.props.navigation.navigate('App')
+        }))
+        .catch(error => {
+          this.setState({ showloader: false, helpertext: error.message })
+        })
     })
+
   };
 
   render() {
@@ -44,7 +53,8 @@ export default class SignupPage extends React.Component {
       email,
       password,
       confirmpassword,
-      helpertext
+      helpertext,
+      showloader
     } = this.state;
 
     return (
@@ -203,6 +213,7 @@ export default class SignupPage extends React.Component {
             </Button>
           </View>
         </ScrollView>
+        <SignupLoader visible={showloader} />
       </KeyboardAvoidingView>
     );
   }

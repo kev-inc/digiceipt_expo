@@ -6,7 +6,7 @@ import * as Permissions from 'expo-permissions';
 
 export default class ScanPage extends React.Component {
   static navigationOptions = {
-    header: null
+    headerShown: false
   }
   state = {
     hasCameraPermission: null,

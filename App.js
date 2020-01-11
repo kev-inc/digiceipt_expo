@@ -10,10 +10,12 @@ import { createBottomTabNavigator } from 'react-navigation-tabs';
 import { HomeStackNavigator } from './components/App/Home/HomeStack';
 import { ReceiptStackNavigator } from './components/App/Receipts/ReceiptStack';
 import { ScanStackNavigator } from './components/App/Scan/ScanStack';
-import ProfilePage from './components/App/ProfilePage';
+import ProfilePage from './components/App/Profile/ProfilePage';
 
 import LoginPage from './components/Auth/LoginPage';
 import SignupPage from './components/Auth/SignupPage';
+
+import { getCurrentUser } from './components/Firebase/Firebase'
 
 const AppTabNavigator = createBottomTabNavigator(
   {
@@ -77,7 +79,7 @@ const AppSwitchNavigator = createSwitchNavigator(
     Auth: AuthTabNavigator,
   },
   {
-    initialRouteName: 'Auth',
+    initialRouteName: `${getCurrentUser() != null ? 'App' : 'Auth'}`,
   }
 );
 

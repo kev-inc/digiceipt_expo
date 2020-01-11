@@ -41,8 +41,8 @@ export default class ReceiptListPage extends React.Component {
           <List.Section>
 
             {[[0,1,2,3],[4,5,6]].map((item, index) => (
-              <View>
-              <List.Subheader key={index} style={{ fontWeight: '600', backgroundColor: '#c6c6c6'}}>5 January 2020</List.Subheader>
+              <View key={index}>
+              <List.Subheader style={{ fontWeight: '600', backgroundColor: '#c6c6c6'}}>5 January 2020</List.Subheader>
               {item.map((item2, index2) => (
                 <ReceiptListItem key={index2} toItemDetail={() => this.props.navigation.navigate('ReceiptDetail')}/>
               ))}

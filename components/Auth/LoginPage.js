@@ -6,8 +6,9 @@ import {
   Alert,
   KeyboardAvoidingView,
 } from 'react-native';
-import { TextInput, Button, Checkbox, HelperText } from 'react-native-paper';
+import { TextInput, Button, Checkbox, HelperText, Portal } from 'react-native-paper';
 import { fbLogin } from '../Firebase/Firebase'
+import LoginLoader from './LoginLoader';
 
 export default class LoginPage extends React.Component {
   static navigationOptions = {
@@ -15,9 +16,10 @@ export default class LoginPage extends React.Component {
   };
   state = {
     rememberLogin: true,
-    email: '',
-    password: '',
-    helpertext: ' '
+    email: 'test@test.com',
+    password: 'testtest',
+    helpertext: ' ',
+    showloader: false
   };
 
   alert = () => {
@@ -28,16 +30,24 @@ export default class LoginPage extends React.Component {
 
   login = () => {
     const { email, password } = this.state
-    fbLogin(email, password).catch(error => {
-      this.setState({helpertext: error.message})
+    this.setState({ showloader: true }, () => {
+      fbLogin(email, password)
+        .then(() => {
+          this.props.navigation.navigate('App')
+        })
+        .catch(error => {
+          this.setState({ showloader: false, helpertext: error.message })
+        })
     })
+
   }
   render() {
     const checked = this.state.rememberLogin;
-    const { email, password, helpertext } = this.state;
+    const { email, password, helpertext, showloader } = this.state;
 
     return (
       <KeyboardAvoidingView style={{ flex: 1 }} behavior="padding">
+
         <ScrollView>
           <View
             style={{
@@ -91,7 +101,7 @@ export default class LoginPage extends React.Component {
               </Text>
             </View>
 
-          <HelperText type="error">{helpertext}</HelperText>
+            <HelperText type="error">{helpertext}</HelperText>
 
             <Button
               mode="contained"
@@ -100,6 +110,7 @@ export default class LoginPage extends React.Component {
               onPress={this.login}>
               Log in
             </Button>
+
 
             <View style={{ flex: 1, flexDirection: 'row', marginVertical: 8 }}>
               <Text style={{ opacity: 0.5 }}>Forgot password? </Text>
@@ -115,6 +126,8 @@ export default class LoginPage extends React.Component {
             </View>
           </View>
         </ScrollView>
+        <LoginLoader visible={showloader} />
+
       </KeyboardAvoidingView>
     );
   }
