@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "digiceipt_v3",
-    "slug": "digiceipt_v3",
+    "name": "Digiceipt Demo",
+    "slug": "digiceipt_demo",
     "privacy": "public",
     "sdkVersion": "36.0.0",
     "platforms": [
@@ -9,9 +9,12 @@
       "android",
       "web"
     ],
+    "android": {
+      "package": "com.kev.inc.digiceipt"
+    },
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/logo.png",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",

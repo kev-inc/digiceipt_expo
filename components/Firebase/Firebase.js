@@ -39,6 +39,19 @@ export function updateUserDetails(firstname, lastname) {
   })
 }
 
+export function updateUserDatabase(firstname, lastname, day, month, year, gender, email) {
+  var user = getCurrentUser()
+  firebase.database().ref('users/' + user.uid).set({
+    firstname: firstname,
+    lastname: lastname, 
+    day: day, 
+    month: month, 
+    year: year,
+    gender: gender,
+    email: email
+  })
+}
+
 export function fbLogout() {
   return firebase.auth().signOut()
 }
@@ -51,4 +64,14 @@ export function getEmail() {
 export function getDisplayName() {
   var user = getCurrentUser()
   return user ? user.displayName : ''
+}
+
+export function getFirstName() {
+  var user = getCurrentUser() 
+  return user ? user.displayName.split(' ')[0] : ''
+}
+
+export function getUserDatabase() {
+  var user = getCurrentUser()
+  return firebase.database().ref('users/' + user.uid).once('value')
 }

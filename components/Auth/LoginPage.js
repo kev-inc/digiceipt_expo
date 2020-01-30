@@ -16,8 +16,8 @@ export default class LoginPage extends React.Component {
   };
   state = {
     rememberLogin: true,
-    email: 'test@test.com',
-    password: 'testtest',
+    email: '',
+    password: '',
     helpertext: ' ',
     showloader: false
   };
@@ -61,7 +61,7 @@ export default class LoginPage extends React.Component {
               </Text>
               <Text
                 style={{ fontSize: 20, color: '#0074d1', fontWeight: '600' }}>
-                Digiceipt
+                Digiceipt{' '}
               </Text>
             </View>
 

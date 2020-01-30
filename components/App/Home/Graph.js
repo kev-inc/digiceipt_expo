@@ -6,7 +6,7 @@ import { Surface } from 'react-native-paper'
 export default class Graph extends React.Component {
   render() {
     const data = {
-      labels: ["Thu", "Fri", "Sat", "Sun", "Mon", "Tue", "Wed"],
+      labels: [ "Sat", "Sun", "Mon", "Tue", "Wed", "Thu", "Today"],
       datasets: [{
         data: [50,40,70,20,100,30,60]
       }]

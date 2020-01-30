@@ -5,11 +5,17 @@ import { Appbar } from 'react-native-paper'
 import RecentTransactions from './RecentTransactions'
 import DealsList from './DealsList'
 import Graph from './Graph'
+import { getDisplayName, getFirstName } from '../../Firebase/Firebase'
 
+import { showWelcomeMessage } from '../WelcomeMessage'
 
 export default class HomePage extends React.Component {
   static navigationOptions = {
     headerShown: false,
+  }
+
+  componentDidMount() {
+    showWelcomeMessage()
   }
 
   render() {
@@ -18,7 +24,7 @@ export default class HomePage extends React.Component {
       <View style={{ flex:1, backgroundColor: '#f4f6f9' }}>
         <Appbar.Header style={{backgroundColor: 'white'}}>
           <Appbar.Content titleStyle={{color: '#0074d1'}}
-            title="Digiceipt"
+            title={`Welcome back, ${getFirstName()}`}
           />
         </Appbar.Header>
 

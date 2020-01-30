@@ -4,7 +4,7 @@ import { Button, Surface, Title, List } from 'react-native-paper'
 
 import ReceiptListItem from '../Receipts/ReceiptListItem'
 
-import { recents } from '../../../assets/mockdata/mockdata'
+import { mockdata } from '../../../assets/mockdata/mockdata'
 
 export default class RecentTransactions extends React.Component {
   render() {
@@ -14,7 +14,7 @@ export default class RecentTransactions extends React.Component {
         <Surface style={{elevation: 4, borderRadius: 16, marginVertical: 16 }}>
           
           <List.Section>
-            {recents.map((item, index) => (
+            {mockdata.slice(0,3).map((item, index) => (
                 <ReceiptListItem 
                   key={index} 
                   shopname={item.shopname}

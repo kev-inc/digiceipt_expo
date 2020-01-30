@@ -1,25 +1,34 @@
 import React from 'react';
 import { Text, View } from 'react-native';
-import { Appbar, Avatar, Button, Caption, Title } from 'react-native-paper';
-import { getEmail, getDisplayName, fbLogout } from '../../Firebase/Firebase'
+import { Appbar, Avatar, Button, Caption, Title, Surface } from 'react-native-paper';
+import { getEmail, getDisplayName, fbLogout, getGender, getUserDatabase } from '../../Firebase/Firebase'
 import LogoutLoader from './LogoutLoader';
 
 export default class ProfilePage extends React.Component {
 
-  state={
-    showloader: false
+  state = {
+    showloader: false,
+    gender: ''
   }
 
   logout = () => {
-    this.setState({showloader: true}, () => {
+    this.setState({ showloader: true }, () => {
       fbLogout().then(() => {
-        this.setState({showloader: false})
+        this.setState({ showloader: false })
       })
     })
   }
 
+  componentDidMount() {
+    getUserDatabase().then(snapshot => {
+      if(snapshot.val()) {
+        this.setState({gender: snapshot.val().gender})
+      }
+    })
+  }
 
   render() {
+    const { gender, showloader } = this.state
     return (
       <View style={{ flex: 1, backgroundColor: '#f4f6f9' }}>
         <Appbar.Header style={{ backgroundColor: 'white' }}>
@@ -28,22 +37,23 @@ export default class ProfilePage extends React.Component {
             title="My Profile"
           />
         </Appbar.Header>
-        <View style={{alignItems: 'center', margin: 16}}>
-          <Avatar.Image
-            size={96}
-            source={{
-              uri: 'https://imgix.bustle.com/uploads/image/2019/9/3/842e6ae1-2db8-44d4-87b9-c6bfdb14e1d2-endgame.png?w=1020&h=574&fit=crop&crop=faces&auto=format&q=70',
-            }}
-          />
-          <Title style={{fontWeight: '600'}}>{getDisplayName()}</Title>
-          <Caption>{getEmail()}</Caption>
-        </View>
-        <Button
+        <View style={{ margin: 16 }}>
+          <Surface style={{ alignItems: 'center', elevation: 2, padding: 16}}>
+            <Avatar.Image style={{backgroundColor: null}}
+              source={ require('../../../assets/parrot.png')}
+            />
+            <Title style={{ fontWeight: '600' }}>{getDisplayName()}</Title>
+            <Caption>{getEmail()}</Caption>
+          </Surface>
+          <Button
           color='#0074d1'
+          mode="contained"
           onPress={this.logout}>
           Log out
         </Button>
-        <LogoutLoader visible={this.state.showloader}/>
+        </View>
+        
+        <LogoutLoader visible={showloader} />
       </View>
     );
   }

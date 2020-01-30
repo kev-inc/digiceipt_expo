@@ -6,7 +6,7 @@ import {
   KeyboardAvoidingView,
 } from 'react-native';
 import { TextInput, Button, HelperText } from 'react-native-paper';
-import { fbSignup, updateUserDetails } from '../Firebase/Firebase'
+import { fbSignup, updateUserDetails, updateUserDatabase } from '../Firebase/Firebase'
 import SignupLoader from './SignupLoader';
 
 export default class SignupPage extends React.Component {
@@ -15,25 +15,25 @@ export default class SignupPage extends React.Component {
   };
 
   state = {
-    firstname: 'John',
-    lastname: 'Doe',
+    firstname: '',
+    lastname: '',
     day: '',
     month: '',
     year: '',
     gender: '',
-    email: 'test2@test.com',
-    password: 'testtest',
+    email: '',
+    password: '',
     confirmpassword: '',
     helpertext: ' ',
     showloader: false
   };
 
   onSignup = () => {
-    const { firstname, lastname, email, password } = this.state
+    const { firstname, lastname, day, month, year, gender, email, password } = this.state
     this.setState({ showloader: true }, () => {
       fbSignup(email, password)
         .then(() => updateUserDetails(firstname, lastname).then(() => {
-          this.props.navigation.navigate('App')
+          updateUserDatabase(firstname, lastname, day, month, year, gender, email)
         }))
         .catch(error => {
           this.setState({ showloader: false, helpertext: error.message })
@@ -75,7 +75,7 @@ export default class SignupPage extends React.Component {
               </Text>
               <Text
                 style={{ fontSize: 20, color: '#0074d1', fontWeight: '600' }}>
-                Digiceipt
+                Digiceipt{' '}
               </Text>
             </View>
 
